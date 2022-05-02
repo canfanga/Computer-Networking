@@ -44,16 +44,27 @@ def header(message_number: int, message_type: int, number_parts: int, progress_m
 
     return bytes(UDP_header_packet)
 
-def readdirectory(directory_in_str):
+def readdirectory(directory_in_str, recipe_name):
     directory = os.fsencode(directory_in_str)
-    final_string = ""    
-    for file in os.listdir(directory):
-        filename = os.fsdecode(file)
-        filename = filename.replace("_"," ")
-        filename = filename.replace(".txt","")
-        filename = filename.replace("-"," ")
-        filename= filename[0]+':'+filename[2:]
-        final_string = final_string + filename  + "\n"
+    final_string = ""
+    if recipe_name == "":    #list was requested
+        for file in os.listdir(directory):
+            filename = os.fsdecode(file)
+            filename = filename.replace("_"," ")
+            filename = filename.replace(".txt","")
+            filename = filename.replace("-"," ")
+            filename= filename[0]+':'+filename[2:]
+            final_string = final_string + filename  + "\n"
+    else:
+        for file in os.listdir(directory):
+            filename = os.fsdecode(file)
+            if recipe_name in filename:
+                filename = filename.replace("_"," ")
+                filename = filename.replace(".txt","")
+                filename = filename.replace("-"," ")
+                filename= filename[0]+':'+filename[2:]
+                final_string = final_string + filename  + "\n"
+
     return final_string
 
 def findrecipe(id, directory_in_str):

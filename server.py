@@ -55,24 +55,24 @@ while(True):
                 else:
                     for x in range(number_parts):
                         packet = separateMessage[x].encode()
-                        UDPServerSocket.sendto(header(decodedmessage[0],5,number_parts,x+1,0,packet), address)
-
+                        x = x + 1
+                        UDPServerSocket.sendto(header(decodedmessage[0],5,number_parts,x,0,packet), address)
                         ackfromClient = UDPServerSocket.recvfrom(bufferSize)
                         decodedmessage = decode(ackfromClient[0])
-                        ack_reply = decodedmessage[3]
-                        #check si son iguals la x i la part rebuda si ho son nashi sino -1
-                        #if ack_reply != x:
-                         #   UDPServerSocket.sendto(header(decodedmessage[0],5,number_parts,(x-1),0,packet), address)
-
+                        ack_reply = decodedmessage[3] 
             except:
                 #Send not found to client
                 UDPServerSocket.sendto(header(0, 8, 1, 1, checksum_calculator(bytes()),bytes()), address)
 
         if decodedmessage[1] == 3:  #user's message is list
-            all_recipes = readdirectory(directory_in_str)
-            print(all_recipes)
+            #decode el packete enviat si es un empty string envia la full llista si es un empty string i si no pues envia namas los que contengan eso
+            decodedmessage = decode(message)
+            client_message = decodedmessage[5].decode()
+
+            all_recipes = readdirectory(directory_in_str, client_message)
             packet = all_recipes.encode('UTF-8')
             UDPServerSocket.sendto(header(decodedmessage[0],4,1,1,0,packet), address)
+            
         
         if decodedmessage[1] == 6: #user's message is goodbye
             adios_packet = header(0, 6, 1, 1, checksum_calculator(bytes()), bytes())

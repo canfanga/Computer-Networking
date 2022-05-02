@@ -156,7 +156,7 @@ while (True):
                 ack_packet = header(countMessages, 0, 1, order, checksum_calculator(bytes()), bytes())
                 UDPClientSocket.sendto(ack_packet, serverAddressPort)
 
-                if x != decodedmessage[2] - 1:
+                if x != decodedmessage[2] -1:
                     replyFromServer = UDPClientSocket.recvfrom(bufferSize)
                     decodedmessage = decode(replyFromServer[0])
                     server_reply = decodedmessage[5].decode()
