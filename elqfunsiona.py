@@ -3,8 +3,8 @@ import socket
 import struct
 from helper_functions import decode, header, checksum_calculator, packet_split
 
-serverAddressPort= ("127.0.0.1", 42069)
-#serverAddressPort= ("10.77.47.75", 42069)
+#serverAddressPort= ("127.0.0.1", 42069)
+serverAddressPort= ("10.77.47.75", 42069)
 #serverAddressPort= ("10.77.13.251", 42069)
 #serverAddressPort= ("10.77.36.208", 42069)
 bufferSize= 100
@@ -95,6 +95,7 @@ while (True):
         if decodedmessage[2] != decodedmessage[3]:
             #send ack to serv
             final_r = server_reply
+            order =0
             for x in range(decodedmessage[2]):
                 #send ack to serv
                 order = order + 1
@@ -133,6 +134,7 @@ while (True):
         if decodedmessage[2] != decodedmessage[3]:
             #send ack to serv
             final_r=server_reply
+            order = 0
             for x in range(decodedmessage[2]):
 
                 order = order + 1
