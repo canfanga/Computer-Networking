@@ -83,7 +83,7 @@ def packet_split(server_buffersize, clientMessage):
     if len(clientMessage.encode())<((server_buffersize)-8):
         return [clientMessage.encode()], 1
         
-    division = math.ceil(len(clientMessage.encode()) / server_buffersize)
+    division = math.ceil(len(clientMessage.encode()) / (server_buffersize-8))
     separateMessage = [0]*division
 
     a = server_buffersize-8 

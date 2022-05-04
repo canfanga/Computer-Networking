@@ -35,13 +35,14 @@ while(True):
 
         #decode tu mama
         decodedmessage = decode(message)
-        client_message = decodedmessage[5].decode()
+       
 
         if decodedmessage[1] == 1:  #user's message is hello
             packet = struct.pack("!i", bufferSize)
             hello_packet = header(0, 1, 1, 1, checksum_calculator(packet), packet)
             UDPServerSocket.sendto(hello_packet, address)
-
+            continue
+        client_message = decodedmessage[5].decode()
         if decodedmessage[1] == 2:  #user's message is id
             recipe_id = decodedmessage[1:]
             try:
