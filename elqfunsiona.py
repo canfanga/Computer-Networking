@@ -4,8 +4,8 @@ import struct
 from helper_functions import decode, header, checksum_calculator, packet_split
 
 #serverAddressPort= ("127.0.0.1", 42069)
-serverAddressPort= ("10.77.47.75", 42069)
-#serverAddressPort= ("10.77.13.251", 42069)
+#serverAddressPort= ("10.77.47.75", 42069)
+serverAddressPort= ("10.77.13.251", 42069)
 #serverAddressPort= ("10.77.36.208", 42069)
 bufferSize= 100
 source_port = 1111
@@ -124,6 +124,7 @@ while (True):
             
         replyFromServer = UDPClientSocket.recvfrom(bufferSize)
         decodedmessage = decode(replyFromServer[0])
+        #print (decodedmessage)
         server_reply = decodedmessage[5].decode()
 
     if decodedmessage[1]== 8:
@@ -136,7 +137,6 @@ while (True):
             final_r=server_reply
             order = 0
             for x in range(decodedmessage[2]):
-
                 order = order + 1
                 ack_packet = header(countMessages, 0, 1, order, checksum_calculator(bytes()), bytes())
                 UDPClientSocket.sendto(ack_packet, serverAddressPort)
